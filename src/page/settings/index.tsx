@@ -38,7 +38,7 @@ const treeData: TreeDataNode[] = [
         key: '/users',
         children: [
             { title: 'User List', key: '/users/list' },
-            { title: 'New User', key: '/users/add' },
+            // { title: 'New User', key: '/users/add' },
         ],
     },
     {
@@ -72,10 +72,10 @@ const treeData: TreeDataNode[] = [
                 title: "Contract",
                 key: "/finance/contract"
             },
-            {
-                title: "Surrender",
-                key: "/finance/surrender"
-            },
+            // {
+            //     title: "Surrender",
+            //     key: "/finance/surrender"
+            // },
             {
                 title: "Bill",
                 key: "/finance/bill"

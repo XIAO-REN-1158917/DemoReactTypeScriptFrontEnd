@@ -113,11 +113,11 @@ const menuList = [
                 "key": "/finance/contract",
 
             },
-            {
-                "icon": "FrownOutlined",
-                "label": "Surrender",
-                "key": "/finance/surrender",
-            },
+            // {
+            //     "icon": "FrownOutlined",
+            //     "label": "Surrender",
+            //     "key": "/finance/surrender",
+            // },
             {
                 "icon": "FileTextOutlined",
                 "label": "Bill",
