@@ -8,48 +8,61 @@ import { getUserList, deleteUser, batchDeleteUser } from "../../api/userList"
 import UserForm from "./userFrom"
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/user/userSlice";
+import useDataList from "../../hooks/useDataList";
 
-
-
-
-interface searchType {
+interface SearchType {
     companyName: string,
     contact: string,
     phone: string
 }
 
 function Users() {
-    const [dataList, setDataList] = useState<DataType[]>([])
-    const [page, setPage] = useState<number>(1)
-    const [pageSize, setPageSize] = useState<number>(10)
-    const [total, setTotal] = useState<number>(0)
-    const [loading, setLoading] = useState<boolean>(false)
+    const {
+        dataList,
+        page,
+        pageSize,
+        total,
+        loading,
+        formData,
+        loadData,
+        onChange,
+        handleChange,
+        reset
+    } = useDataList<SearchType, DataType>({ companyName: "", contact: "", phone: "" }, getUserList)
+
+    //The original writing is kept here to compare before and after using custom encapsulation hooks
+
+    // const [dataList, setDataList] = useState<DataType[]>([])
+    // const [page, setPage] = useState<number>(1)
+    // const [pageSize, setPageSize] = useState<number>(10)
+    // const [total, setTotal] = useState<number>(0)
+    // const [loading, setLoading] = useState<boolean>(false)
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [title, setTitle] = useState<string>("")
     const dispatch = useDispatch()
-    const [formData, setFormData] = useState<searchType>({
-        companyName: "",
-        contact: "",
-        phone: ""
-    })
+    // const [formData, setFormData] = useState<searchType>({
+    //     companyName: "",
+    //     contact: "",
+    //     phone: ""
+    // })
 
     // call api to fetch data
-    const loadData = async () => {
-        setLoading(true)//enhance UX, set a loading animation
-        const { data: { list, total } } = await getUserList({ ...formData, page, pageSize })
-        setLoading(false)
-        setDataList(list)
-        setTotal(total)
-    }
+    // const loadData = async () => {
+    //     setLoading(true)//enhance UX, set a loading animation
+    //     const { data: { list, total } } = await getUserList({ ...formData, page, pageSize })
+    //     setLoading(false)
+    //     setDataList(list)
+    //     setTotal(total)
+    // }
     // receive value of these three input boxes
-    const handlerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }))
-    }
+    // const handlerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { name, value } = e.target
+    //     setFormData(prevState => ({
+    //         ...prevState,
+    //         [name]: value
+    //     }))
+    // }
     //configuration of selecting rows
     const onSelectChange = (selectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(selectedRowKeys)
@@ -59,22 +72,22 @@ function Users() {
         onChange: onSelectChange
     }
     // configuration (call back) of changing the page and page size
-    const onChange: PaginationProps['onChange'] = (page, pageSize) => {
-        setPage(page)
-        setPageSize(pageSize)
-    }
+    // const onChange: PaginationProps['onChange'] = (page, pageSize) => {
+    //     setPage(page)
+    //     setPageSize(pageSize)
+    // }
     // reset page
-    const reset = () => {
-        setSelectedRowKeys([])
-        setFormData({
-            companyName: "",
-            contact: "",
-            phone: ""
-        })
-        setPage(1)
-        setPageSize(10)
-        loadData()
-    }
+    // const reset = () => {
+    //     setSelectedRowKeys([])
+    //     setFormData({
+    //         companyName: "",
+    //         contact: "",
+    //         phone: ""
+    //     })
+    //     setPage(1)
+    //     setPageSize(10)
+    //     loadData()
+    // }
     //disabled or not for batch delete button
     const disabled = useMemo(() => {
         return selectedRowKeys.length ? false : true
@@ -218,15 +231,15 @@ function Users() {
             <Row gutter={16}>
                 <Col span={7}>
                     <p>Name: </p>
-                    <Input name="companyName" value={formData.companyName} onChange={handlerChange} />
+                    <Input name="companyName" value={formData.companyName} onChange={handleChange} />
                 </Col>
                 <Col span={7}>
                     <p>Contact: </p>
-                    <Input name="contact" value={formData.contact} onChange={handlerChange} />
+                    <Input name="contact" value={formData.contact} onChange={handleChange} />
                 </Col>
                 <Col span={7}>
                     <p>Phone: </p>
-                    <Input name="phone" value={formData.phone} onChange={handlerChange} />
+                    <Input name="phone" value={formData.phone} onChange={handleChange} />
                 </Col>
                 <Col span={3}>
                     <Button type="primary" onClick={loadData}>Search</Button>

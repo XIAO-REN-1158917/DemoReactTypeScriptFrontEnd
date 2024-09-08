@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setMenu } from "./store/login/authSlice";
 import { useSelector } from "react-redux";
 import { Spin } from "antd"
+
 function App() {
     const [routerTree, setRouterTree] = useState<any>(null)
     const dispatch = useDispatch()
@@ -24,12 +25,12 @@ function App() {
                 myRouters[0].children = routersDynamic
                 // set a default
                 myRouters[0].children[0].index = true
-                const router = createBrowserRouter(myRouters)
+                const routerTree = createBrowserRouter(myRouters)
                 //send router object to state
-                setRouterTree(router)
+                setRouterTree(routerTree)
             } else {
-                const router = createBrowserRouter(routersFixed)
-                setRouterTree(router)
+                const routerTree = createBrowserRouter(routersFixed)
+                setRouterTree(routerTree)
             }
         }
         loadData()
